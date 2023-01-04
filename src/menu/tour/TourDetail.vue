@@ -25,4 +25,40 @@
         <div class="h-20" ></div>
         
     </div>
+    <div class="divide-y divide-slate-100 pt-5 cursor-pointer">
+      <ListView>
+          <p v-if="loading" >Loading details...</p>
+          <p v-if="error">{{ error.message }}</p>
+          <TourDetailsItem  v-if="details" v-for="(item, index) in details" :key="index" :item="item" />
+        </ListView>
+    </div>
 </template>
+<script>
+  import { defineComponent, defineProps ,computed } from "vue";
+  import { useRoute } from 'vue-router'
+  import { storeToRefs } from 'pinia'
+  import { useTourStore } from '@/stores/tour'
+
+  import ListView from '@/components/ListView.vue'
+  import TourDetailsItem from '@/menu/tour/TourDetailsItem.vue'
+
+  
+  export default defineComponent({
+    components: {
+      ListView,
+      TourDetailsItem
+    },
+    setup() {
+      const route = useRoute()
+      const { details, loading, error }  = storeToRefs(useTourStore())
+      const { fetchTourDetails }       = useTourStore()
+      
+      fetchTourDetails(route.params.id)
+      
+      return { details , loading , error }
+    },
+    props : ['item'],
+    methods: {
+  }
+});   
+</script>
