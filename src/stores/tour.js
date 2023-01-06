@@ -46,8 +46,9 @@ export const useTourStore = defineStore({
     async fetchTourDetails(id) {
       this.details = []
       this.loading = true
+      const tourDetailsURL = tourdetails_endpoint+id
       try {
-        this.details = await axios.post(tourdetails_endpoint+id)
+        this.details = await axios.post(tourDetailsURL)
         .then((response) => response.data)
       } catch (error) {
         this.error = error

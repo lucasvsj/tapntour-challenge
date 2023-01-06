@@ -48,6 +48,16 @@
       ListView,
       TourDetailsItem
     },
+    updated() {
+      const route = useRoute()
+      const { details, loading, error }  = storeToRefs(useTourStore())
+      const { fetchTourDetails }       = useTourStore()
+      
+      console.log(route.params.id)
+      fetchTourDetails(route.params.id)
+      
+      return { details , loading , error }
+    },
     setup() {
       const route = useRoute()
       const { details, loading, error }  = storeToRefs(useTourStore())
